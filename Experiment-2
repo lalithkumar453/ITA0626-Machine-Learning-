@@ -26,7 +26,7 @@ for _, row in df.iterrows():
                 S[i] = '?'
         G = [g for g in G if all(g[i] == '?' or g[i] == S[i] for i in range(n))]
 
-    else:                 # Negative example
+    else:                 
         newG = []
         for g in G:
             for i in range(n):
