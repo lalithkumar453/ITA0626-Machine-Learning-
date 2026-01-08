@@ -1,0 +1,41 @@
+# Simple ID3 Decision Tree Demonstration
+
+import pandas as pd
+import math
+# Training data
+data = {
+    'Outlook': ['Sunny','Sunny','Overcast','Rain'],
+    'Humidity': ['High','High','High','Normal'],
+    'PlayTennis': ['No','No','Yes','Yes']
+}
+
+df = pd.DataFrame(data)
+# Entropy function
+def entropy(col):
+    p = col.value_counts(normalize=True)
+    return -sum(p * p.apply(math.log2))
+
+# Information Gain
+def info_gain(df, attr):
+    total = entropy(df['PlayTennis'])
+    values = df[attr].unique()
+    w_entropy = 0
+    for v in values:
+        subset = df[df[attr] == v]
+        w_entropy += (len(subset)/len(df)) * entropy(subset['PlayTennis'])
+    return total - w_entropy
+
+print("Information Gain:")
+for col in ['Outlook','Humidity']:
+    print(col, "=", round(info_gain(df, col), 3))
+
+print("\nRoot Node: Outlook")
+
+new_sample = {'Outlook':'Sunny', 'Humidity':'High'}
+
+if new_sample['Outlook'] == 'Sunny' and new_sample['Humidity'] == 'High':
+    result = 'No'
+else:
+    result = 'Yes'
+
+print("\nNew Sample Classification:", result)
