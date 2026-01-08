@@ -1,0 +1,23 @@
+# FIND-S Algorithm Implementation
+training_data = [
+    ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same', 'Yes'],
+    ['Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same', 'Yes'],
+    ['Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change', 'No'],
+    ['Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change', 'Yes']
+]
+num_attributes = len(training_data[0]) - 1
+hypothesis = ['Ø'] * num_attributes
+
+for example in training_data:
+    if example[-1] == 'Yes':
+        hypothesis = example[:-1]
+        break
+
+for example in training_data:
+    if example[-1] == 'Yes':
+        for i in range(num_attributes):
+            if hypothesis[i] != example[i]:
+                hypothesis[i] = '?'
+
+print("Final hypothesis using FIND-S algorithm:")
+print(hypothesis)
