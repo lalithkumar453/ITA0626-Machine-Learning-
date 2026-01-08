@@ -1,0 +1,21 @@
+# Simple K-NN
+import math
+
+# Data
+X = [[1,2],[2,3],[3,3],[6,5],[7,7]]
+Y = ['A','A','B','B','B']
+
+# Distance
+def dist(a,b):
+    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+
+# KNN
+def knn(test, k):
+    d = []
+    for i in range(len(X)):
+        d.append((dist(X[i], test), Y[i]))
+    d.sort()
+    return d[0][1]
+
+# Test
+print("Class =", knn([3,2], 3))
