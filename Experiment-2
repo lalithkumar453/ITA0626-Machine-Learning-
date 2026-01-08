@@ -1,0 +1,41 @@
+import pandas as pd
+data = {
+    'Outlook': ['Sunny', 'Sunny', 'Rainy', 'Sunny'],
+    'Temperature': ['Warm', 'Warm', 'Cold', 'Warm'],
+    'Humidity': ['Normal', 'High', 'High', 'High'],
+    'Wind': ['Strong', 'Strong', 'Strong', 'Strong'],
+    'Water': ['Warm', 'Warm', 'Warm', 'Cool'],
+    'Forecast': ['Same', 'Same', 'Change', 'Change'],
+    'PlayTennis': ['Yes', 'Yes', 'No', 'Yes']
+}
+df = pd.DataFrame(data)
+# Initialize S and G
+n = len(df.columns) - 1
+S = ['Ø'] * n
+G = [['?'] * n
+]
+# Candidate Elimination Algorithm
+for _, row in df.iterrows():
+    x = row[:-1].tolist()
+    y = row[-1].lower()
+    if y == 'yes':        # Positive example
+        for i in range(n):
+            if S[i] == 'Ø':
+                S[i] = x[i]
+            elif S[i] != x[i]:
+                S[i] = '?'
+        G = [g for g in G if all(g[i] == '?' or g[i] == S[i] for i in range(n))]
+
+    else:                 # Negative example
+        newG = []
+        for g in G:
+            for i in range(n):
+                if g[i] == '?' and S[i] != '?' and S[i] != x[i]:
+                    h = g.copy()
+                    h[i] = S[i]
+                    newG.append(h)
+        G = newG
+print("Final S:", S)
+print("Final G:")
+for g in G:
+    print(g)
